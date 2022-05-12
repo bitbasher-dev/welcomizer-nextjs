@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "rimraf ./.next && next build && next export",
+    "__DANGEROUS-deploy": "npm run build && rsync -avz ./out/ root@api.welcomizer.com:/home/welcomizer/front",
     "start": "next start",
     "lint": "next lint"
   },
@@ -12,6 +13,7 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "next": "12.1.6",
+    "query-string": "^7.1.1",
     "react": "18.1.0",
     "react-dom": "18.1.0"
   },

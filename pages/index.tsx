@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
+import qs from "query-string";
 
 const DEFAULT_VIDEO_WIDTH = 768;
 const DEFAULT_VIDEO_HEIGHT = 432;
@@ -66,19 +68,21 @@ const Video = styled.video`
   }
 `;
 
-const Home: NextPage = () => {
+export default function Home() {
+  const parsed = qs.parse(typeof window === "undefined" ? "" : location.search);
+
   return (
     <Container>
       <Title>Welcomizer 👋</Title>
 
       <VideoContainer>
-        <Video
-          controls
-          src="https://firebasestorage.googleapis.com/v0/b/welcomizer-dev.appspot.com/o/videos%2F1651211876.mp4?alt=media&token=db303737-88e0-4d13-9b0a-ffb96e809c5f"
-        />
+        {parsed.video && (
+          <Video
+            controls
+            src={`https://api.welcomizer.com/video/${parsed.video}`}
+          />
+        )}
       </VideoContainer>
     </Container>
   );
-};
-
-export default Home;
+}
